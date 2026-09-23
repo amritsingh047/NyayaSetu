@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LegalLens — GenAI Legal Assistance Platform Plan</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.15.0/dist/mermaid.min.js" integrity="sha384-yQ4mmBBT+vhTAwjFH0toJXNYJ6O4usWnt6EPIdWwrRvx2V/n5lXuDZQwQFeSFydF" crossorigin="anonymous"></script>
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #1a1a2e;
+    --bg: #fafaf8;
+    --surface: #ffffff;
+    --border: #d8d8d0;
+    --accent: #2b5ea7;
+    --accent-light: #e8f0fc;
+    --phase1: #2b7a4b;
+    --phase1-bg: #eaf5ef;
+    --phase2: #b8860b;
+    --phase2-bg: #fdf6e3;
+    --phase3: #8b3a8b;
+    --phase3-bg: #f8eef8;
+    --code-bg: #f4f4f0;
+    --radius: 6px;
+    --shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    padding: 2rem 1rem;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: .25rem;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    color: #666;
+    margin-bottom: 2.5rem;
+    font-style: italic;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 2.5rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 1.8rem 0 .6rem;
+  }
+
+  h4 {
+    font-size: .95rem;
+    font-weight: 700;
+    margin: 1.2rem 0 .4rem;
+    color: var(--accent);
+  }
+
+  p { margin-bottom: 1rem; max-width: 72ch; }
+
+  /* Navigation tabs */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: .5rem;
+  }
+  .tab {
+    padding: .45rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: .85rem;
+    transition: background .15s, border-color .15s;
+  }
+  .tab:hover { border-color: var(--accent); }
+  .tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Phase badges */
+  .phase-badge {
+    display: inline-block;
+    font-family: system-ui, sans-serif;
+    font-size: .72rem;
+    font-weight: 600;
+    padding: .15rem .55rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    vertical-align: middle;
+    margin-right: .3rem;
+  }
+  .phase-badge.mvp { background: var(--phase1-bg); color: var(--phase1); }
+  .phase-badge.p2 { background: var(--phase2-bg); color: var(--phase2); }
+  .phase-badge.p3 { background: var(--phase3-bg); color: var(--phase3); }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-weight: 700;
+    font-size: .95rem;
+    margin-bottom: .4rem;
+  }
+  .card p { font-size: .9rem; margin-bottom: .5rem; }
+
+  /* User stories */
+  .story {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    padding: .8rem 1rem;
+    margin-bottom: .75rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    box-shadow: var(--shadow);
+  }
+  .story-title {
+    font-weight: 700;
+    font-size: .88rem;
+    margin-bottom: .3rem;
+    font-family: system-ui, sans-serif;
+  }
+  .story p { font-size: .85rem; margin-bottom: .3rem; }
+  .story .criteria {
+    font-size: .82rem;
+    color: #555;
+    font-style: italic;
+  }
+
+  /* Code / prompt blocks */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    overflow-x: auto;
+    font-size: .82rem;
+    line-height: 1.6;
+    font-family: 'Consolas', 'Menlo', monospace;
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Data model table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.2rem;
+    font-size: .88rem;
+  }
+  th, td {
+    text-align: left;
+    padding: .5rem .7rem;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    font-family: system-ui, sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 2px solid var(--border);
+  }
+  td code {
+    font-family: 'Consolas', monospace;
+    font-size: .82rem;
+    background: var(--code-bg);
+    padding: .1rem .3rem;
+    border-radius: 3px;
+  }
+
+  /* Wireframe components */
+  .wireframe {
+    background: #f9f9f7;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    font-family: system-ui, sans-serif;
+    font-size: .82rem;
+  }
+  .wireframe-label {
+    font-weight: 700;
+    font-size: .75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: .6rem;
+  }
+  .wire-row { display: flex; gap: .8rem; margin-bottom: .6rem; flex-wrap: wrap; }
+  .wire-box {
+    flex: 1;
+    min-width: 140px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: .6rem .8rem;
+    background: white;
+    text-align: center;
+    color: #555;
+    font-size: .78rem;
+  }
+  .wire-box.highlight {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+  .wire-box.full { flex: 1 1 100%; }
+
+  /* Stack grid */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: .8rem;
+    margin-bottom: 1.2rem;
+  }
+  .stack-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: .9rem 1rem;
+    box-shadow: var(--shadow);
+  }
+  .stack-item .label {
+    font-family: system-ui, sans-serif;
+    font-size: .72rem;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: .3rem;
+  }
+  .stack-item .value {
+    font-weight: 700;
+    font-size: .92rem;
+  }
+  .stack-item .note {
+    font-size: .8rem;
+    color: #666;
+    margin-top: .2rem;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 1.5rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: .6rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding-left: .8rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.75rem;
+    top: .35rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: white;
+  }
+  .timeline-item.phase1::before { border-color: var(--phase1); background: var(--phase1-bg); }
+  .timeline-item.phase2::before { border-color: var(--phase2); background: var(--phase2-bg); }
+  .timeline-item.phase3::before { border-color: var(--phase3); background: var(--phase3-bg); }
+
+  .disclaimer-box {
+    background: #fef3e2;
+    border: 1px solid #e8c97a;
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin: 1.5rem 0;
+    font-size: .88rem;
+  }
+  .disclaimer-box strong { color: #8b6914; }
+
+  .mermaid { margin: 1rem 0 1.5rem; }
+
+  @media (max-width: 600px) {
+    body { padding: 1rem .75rem; }
+    h1 { font-size: 1.5rem; }
+    .tabs { gap: .3rem; }
+    .tab { font-size: .78rem; padding: .35rem .7rem; }
+    .stack-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>LegalLens</h1>
+<p class="subtitle">GenAI-Powered Legal Assistance Platform — Product &amp; Technical Plan</p>
+
+<div class="disclaimer-box">
+  <strong>Core Principle:</strong> LegalLens provides legal <em>information</em> and document comprehension — it does not provide legal <em>advice</em>. Every output includes a disclaimer encouraging users to consult a licensed attorney for binding guidance.
+</div>
+
+<div class="tabs" id="mainTabs">
+  <button class="tab active" data-section="overview">Overview</button>
+  <button class="tab" data-section="architecture">Architecture</button>
+  <button class="tab" data-section="techstack">Tech Stack</button>
+  <button class="tab" data-section="mvp">MVP Features</button>
+  <button class="tab" data-section="datamodel">Data Model</button>
+  <button class="tab" data-section="ui">UI Components</button>
+  <button class="tab" data-section="prompts">LLM Prompts</button>
+  <button class="tab" data-section="security">Security</button>
+  <button class="tab" data-section="roadmap">Roadmap</button>
+</div>
+
+<!-- ========== OVERVIEW ========== -->
+<div class="section active" id="overview">
+  <h2>Project Overview</h2>
+  <p>LegalLens is a platform that helps individuals and small businesses understand, compare, and navigate legal documents using generative AI. It translates dense legal language into plain English, highlights obligations and risks, and answers questions grounded in the user's own documents — all while making clear that it is not a substitute for professional legal counsel.</p>
+
+  <h3>Target Users</h3>
+  <p>Individuals reviewing leases, employment agreements, or terms of service before signing. Small business owners comparing vendor contracts, NDAs, or partnership agreements. Freelancers and contractors evaluating scope-of-work clauses. Anyone who needs to understand what a legal document actually says before deciding whether to consult a lawyer.</p>
+
+  <h3>Phased Delivery</h3>
+  <div class="timeline">
+    <div class="timeline-item phase1">
+      <strong><span class="phase-badge mvp">Phase 1 — MVP</span> Weeks 1–8</strong>
+      <p>Core document comprehension: upload, summarize, highlight clauses, contextual Q&A, glossary, and action-item extraction. Single-document focus, essential safety disclaimers, local-first processing option.</p>
+    </div>
+    <div class="timeline-item phase2">
+      <strong><span class="phase-badge p2">Phase 2 — Compare &amp; Customize</span> Weeks 9–16</strong>
+      <p>Side-by-side contract comparison, jurisdiction-aware templates, entity recognition, redaction tools, confidence calibration improvements, and multi-document support.</p>
+    </div>
+    <div class="timeline-item phase3">
+      <strong><span class="phase-badge p3">Phase 3 — Collaborate &amp; Integrate</span> Weeks 17–24</strong>
+      <p>Collaborative review workflows, annotations, sharing with legal professionals, e-signature integrations, document management connectors, and advanced analytics.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ARCHITECTURE ========== -->
+<div class="section" id="architecture">
+  <h2>System Architecture</h2>
+  <p>The platform follows a layered architecture with clear separation between the presentation layer, application services, AI processing pipeline, and data storage. The LLM interaction is mediated through a prompt orchestration layer that handles document chunking, context assembly, and guardrail enforcement.</p>
+
+  <h3>Architecture Diagram</h3>
+  <pre class="mermaid">
+graph TB
+    subgraph Client["Client Layer"]
+        UI["React SPA<br/>Document Upload, Summary, Q&A, Compare"]
+    end
+
+    subgraph API["Application Layer"]
+        GW["API Gateway<br/>Rate Limiting, Auth"]
+        DS["Document Service<br/>Parse, Chunk, Store"]
+        AS["Analysis Service<br/>Summary, Clauses, Q&A"]
+        CS["Comparison Service<br/>Diff, Alignment"]
+    end
+
+    subgraph AI["AI Processing Pipeline"]
+        PO["Prompt Orchestrator<br/>Template Selection, Context Assembly"]
+        GR["Guardrail Engine<br/>Disclaimer Injection, Scope Check"]
+        LLM["LLM Provider<br/>Claude API"]
+        EMB["Embedding Service<br/>Document Indexing"]
+    end
+
+    subgraph Data["Data Layer"]
+        PG["PostgreSQL<br/>Users, Documents, Metadata"]
+        VS["Vector Store<br/>pgvector — Chunk Embeddings"]
+        OBJ["Object Storage<br/>S3 / Local — Original Files"]
+        CACHE["Redis<br/>Session Cache, Rate Limits"]
+    end
+
+    subgraph Safety["Safety &amp; Compliance"]
+        DISC["Disclaimer Service"]
+        AUDIT["Audit Logger"]
+        DEL["Data Deletion Handler"]
+    end
+
+    UI -->|HTTPS| GW
+    GW --> DS
+    GW --> AS
+    GW --> CS
+    DS --> OBJ
+    DS --> PG
+    DS --> EMB
+    AS --> PO
+    CS --> PO
+    PO --> GR
+    GR --> LLM
+    EMB --> VS
+    AS --> VS
+    PO --> CACHE
+    GR --> DISC
+    GW --> AUDIT
+    DEL --> PG
+    DEL --> OBJ
+    DEL --> VS
+  </pre>
+
+  <h3>Data Flow — Document Analysis</h3>
+  <pre class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant FE as Frontend
+    participant API as API Gateway
+    participant DS as Document Service
+    participant AI as AI Pipeline
+    participant DB as Database
+
+    U->>FE: Upload document (PDF/DOCX/TXT)
+    FE->>API: POST /documents (multipart)
+    API->>DS: Parse &amp; extract text
+    DS->>DB: Store metadata + chunks
+    DS->>AI: Generate embeddings
+    AI->>DB: Store vectors (pgvector)
+    DS-->>FE: Document ID + preview
+
+    U->>FE: Request summary
+    FE->>API: POST /analysis/summary
+    API->>AI: Assemble context + prompt
+    AI->>AI: Guardrail check
+    AI->>AI: LLM call (Claude)
+    AI-->>FE: Summary + confidence + disclaimer
+
+    U->>FE: Ask a question
+    FE->>API: POST /qa/ask
+    API->>DB: Vector similarity search
+    DB-->>API: Relevant chunks
+    API->>AI: Context + question + prompt
+    AI-->>FE: Answer + source excerpts + disclaimer
+  </pre>
+
+  <h3>Key Architectural Decisions</h3>
+  <div class="card">
+    <div class="card-title">RAG over Full-Context for Long Documents</div>
+    <p>Documents are chunked (by clause/section boundaries when possible, falling back to ~500-token overlapping windows) and embedded. Q&A and analysis use retrieval-augmented generation to stay within context limits and ground responses in specific passages. For short documents (&lt;8k tokens), the full text is passed directly.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Guardrail-First Pipeline</div>
+    <p>Every LLM call passes through the Guardrail Engine before reaching the model. This layer injects the disclaimer system prompt, checks that the user query is within scope (document comprehension, not jurisdiction-specific legal advice), and post-processes outputs to attach confidence indicators and source references.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Local-First with Cloud Option</div>
+    <p>The default deployment processes documents locally (the LLM call is the only external service). Users can opt into cloud processing for faster analysis of large documents. All cloud processing is ephemeral — document data is purged after the session unless the user explicitly saves it.</p>
+  </div>
+</div>
+
+<!-- ========== TECH STACK ========== -->
+<div class="section" id="techstack">
+  <h2>Tech Stack</h2>
+
+  <div class="stack-grid">
+    <div class="stack-item">
+      <div class="label">Frontend</div>
+      <div class="value">React + TypeScript</div>
+      <div class="note">Next.js for SSR, Tailwind CSS, shadcn/ui components</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Backend</div>
+      <div class="value">Python / FastAPI</div>
+      <div class="note">Async-first, strong NLP/ML ecosystem, Pydantic validation</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">LLM Service</div>
+      <div class="value">Anthropic Claude API</div>
+      <div class="note">200k context, strong instruction-following, tool use for structured outputs</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Embeddings</div>
+      <div class="value">Voyage AI / OpenAI</div>
+      <div class="note">voyage-law-2 for legal domain, or text-embedding-3-small as general fallback</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Database</div>
+      <div class="value">PostgreSQL + pgvector</div>
+      <div class="note">Relational data + vector similarity in one engine</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Object Storage</div>
+      <div class="value">S3 / MinIO</div>
+      <div class="note">Original document files, encrypted at rest</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Cache</div>
+      <div class="value">Redis</div>
+      <div class="note">Session state, rate limiting, analysis result caching</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Auth</div>
+      <div class="value">Clerk / Auth0</div>
+      <div class="note">OAuth 2.0 + magic link, RBAC for team features (Phase 3)</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Document Parsing</div>
+      <div class="value">Apache Tika + PyMuPDF</div>
+      <div class="note">PDF, DOCX, TXT extraction with layout preservation</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Diff Engine</div>
+      <div class="value">difflib + custom aligner</div>
+      <div class="note">Clause-level alignment for contract comparison (Phase 2)</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Deployment</div>
+      <div class="value">Docker + Railway / Fly.io</div>
+      <div class="note">Containerized services, auto-scaling, global edge for the frontend</div>
+    </div>
+    <div class="stack-item">
+      <div class="label">Monitoring</div>
+      <div class="value">Sentry + PostHog</div>
+      <div class="note">Error tracking, product analytics, LLM latency dashboards</div>
+    </div>
+  </div>
+
+  <h3>Why This Stack</h3>
+  <p>The combination of Python/FastAPI on the backend with Claude as the LLM plays to the strengths of both: FastAPI's async capabilities handle concurrent document processing well, and Claude's large context window means shorter documents can be analyzed in a single pass without chunking overhead. PostgreSQL with pgvector avoids the operational complexity of a separate vector database while still supporting efficient semantic search for longer documents. The legal-domain embedding model (voyage-law-2) significantly improves retrieval quality for clause-level Q&A compared to general-purpose embeddings.</p>
+  <p>For the frontend, Next.js provides server-side rendering for the initial document view (important for perceived performance when loading large analysis results) while React handles the interactive elements like clause highlighting and the Q&A interface. Tailwind and shadcn/ui keep the UI development fast without sacrificing accessibility.</p>
+</div>
+
+<!-- ========== MVP FEATURES ========== -->
+<div class="section" id="mvp">
+  <h2>MVP Feature Set</h2>
+  <p>The MVP delivers four core capabilities that together form a complete document comprehension workflow: upload a document, get a plain-language summary, explore individual clauses with explanations, ask questions about the document, get a glossary of legal terms, and receive actionable takeaways. All six features in the MVP scope below.</p>
+
+  <h3><span class="phase-badge mvp">MVP</span> Feature 1 — Plain-Language Summary</h3>
+  <div class="story">
+    <div class="story-title">US-01: Generate Document Summary</div>
+    <p><strong>As a</strong> small business owner, <strong>I want to</strong> upload a contract and receive a plain-language summary, <strong>so that</strong> I can quickly understand what the document says without reading every clause.</p>
+    <div class="criteria">
+      <strong>Acceptance Criteria:</strong> Summary is generated within 15 seconds for documents under 20 pages. Summary covers the parties, purpose, key obligations, term/duration, and notable conditions. Confidence level is displayed (high/medium/low). A disclaimer is shown below every summary. Source excerpts are linked for each summary point.
+    </div>
+  </div>
+  <div class="story">
+    <div class="story-title">US-02: Adjust Summary Depth</div>
+    <p><strong>As a</strong> user, <strong>I want to</strong> choose between a brief overview (3–5 sentences) and a detailed breakdown (section-by-section), <strong>so that</strong> I get the level of detail I need.</p>
+    <div class="criteria">
+      <strong>Acceptance Criteria:</strong> Toggle between "Quick Overview" and "Detailed Breakdown" modes. Detailed mode produces a section-by-section walkthrough. Both modes include confidence indicators.
+    </div>
+  </div>
+
+  <h3><span class="phase-badge mvp">MVP</span> Feature 2 — Clause Highlighting &amp; Explanation</h3>
+  <div class="story">
+    <div class="story-title">US-03: Highlight and Explain Clauses</div>
+    <p><strong>As a</strong> freelancer reviewing a contract, <strong>I want to</strong> see key clauses highlighted with color-coded risk levels and click on any clause for a plain-English explanation, <strong>so that</strong> I understand my obligations and risks.</p>
+    <div class="criteria">
+      <strong>Acceptance Criteria:</strong> Clauses are categorized as obligations, rights, risks, or conditions. Each category has a distinct visual indicator. Clicking a clause opens a side panel with: plain-language explanation, risk assessment (low/medium/high), what options the user might have, and the exact source text. At least 80% of substantive clauses are detected and categorized.
+    </div>
+  </div>
+
+  <h3><span class="phase-badge mvp">MVP</span> Feature 3 — Contextual Q&amp;A</h3>
+  <div class="story">
+    <div class="story-title">US-04: Ask Questions About a Document</div>
+    <p><strong>As a</strong> tenant reviewing a lease, <strong>I want to</strong> ask natural-language questions like "Can my landlord raise the rent mid-lease?" and get an answer grounded in my specific document, <strong>so that</strong> I understand how the document applies to my situation.</p>
+    <div class="criteria">
+      <strong>Acceptance Criteria:</strong> Answers reference specific sections/clauses from the uploaded document. If the document doesn't address the question, the system says so rather than guessing. Relevant excerpts are shown alongside the answer. The system declines to give jurisdiction-specific legal advice and suggests consulting an attorney when the question goes beyond document comprehension.
+    </div>
+  </div>
+  <div class="story">
+    <div class="story-title">US-05: Follow-Up Questions</div>
+    <p><strong>As a</strong> user, <strong>I want to</strong> ask follow-up questions that build on previous answers within the same session, <strong>so that</strong> I can explore a topic in depth without re-explaining context.</p>
+    <div class="criteria">
+      <strong>Acceptance Criteria:</strong> Conversation history is maintained within a session. Follow-ups correctly resolve references like "that clause" or "the termination section." Session context is clearable by the user.
+    </div>
+  </div>
+
+  <h3><span class="phase-badge mvp">MVP</span> Feature 4 — Action Items &amp; Checklists</h3>
+  <div class="story">
+    <div class="story-title">US-06: Generate Action Items</div>
+    <p><strong>As a</strong> small business owner about to sign a vendor contract, <strong>I want to</strong> receive a checklist of things I need to do, deadlines I need to meet, and conditions I should verify, <strong>so that</strong> I don't miss critical obligations.</p>
+    <div class="criteria">
+      <strong>Acceptance Criteria:</strong> Action items are extracted from obligation and condition clauses. Each item includes the source clause reference, the deadline or trigger (if any), and a priority level. Checklist is downloadable as a PDF or markdown file.
+    </div>
+  </div>
+
+  <h3><span class="phase-badge mvp">MVP</span> Feature 5 — Legal Glossary</h3>
+  <div class="story">
+    <div class="story-title">US-07: In-Context Legal Term Definitions</div>
+    <p><strong>As a</strong> first-time renter reading a lease, <strong>I want to</strong> see legal terms like "indemnification" or "force majeure" explained in plain language when they appear in my document, <strong>so that</strong> I don't have to look them up separately.</p>
+    <div class="criteria">
+      <strong>Acceptance Criteria:</strong> Legal terms in the document are automatically detected and underlined. Hovering or clicking a term shows a plain-language definition. Definitions are contextualized to how the term is used in the specific document, not just a generic dictionary entry. A full glossary panel lists all detected terms alphabetically.
+    </div>
+  </div>
+
+  <h3><span class="phase-badge mvp">MVP</span> Feature 6 — Document Upload &amp; Management</h3>
+  <div class="story">
+    <div class="story-title">US-08: Upload and Manage Documents</div>
+    <p><strong>As a</strong> user, <strong>I want to</strong> upload PDF, DOCX, or plain-text documents and manage them in a simple library, <strong>so that</strong> I can return to previous analyses.</p>
+    <div class="criteria">
+      <strong>Acceptance Criteria:</strong> Supported formats: PDF, DOCX, TXT, RTF. Maximum file size: 25 MB. Documents can be renamed, tagged, and deleted. Deleting a document removes all associated data (text, embeddings, analyses). Upload progress is shown with estimated processing time.
+    </div>
+  </div>
+  <div class="story">
+    <div class="story-title">US-09: Paste Text Directly</div>
+    <p><strong>As a</strong> user reviewing terms of service on a website, <strong>I want to</strong> paste the text directly instead of uploading a file, <strong>so that</strong> I can quickly analyze web-based documents.</p>
+    <div class="criteria">
+      <strong>Acceptance Criteria:</strong> A text-paste area is available alongside the file uploader. Pasted text is processed with the same analysis pipeline as uploaded files. The system auto-detects document structure (headings, numbered sections) from pasted text.
+    </div>
+  </div>
+</div>
+
+<!-- ========== DATA MODEL ========== -->
+<div class="section" id="datamodel">
+  <h2>Data Model</h2>
+  <p>The data model centers on the Document entity, which is decomposed into Clauses during parsing. Each analysis operation (summary, Q&A, action items) produces its own entity linked back to the document and the specific clauses it references. Tags and Categories allow users to organize documents and enable the system to select appropriate analysis templates.</p>
+
+  <h3>Entity Relationship Diagram</h3>
+  <pre class="mermaid">
+erDiagram
+    USER ||--o{ DOCUMENT : uploads
+    DOCUMENT ||--|{ CLAUSE : contains
+    DOCUMENT ||--o{ SUMMARY : has
+    DOCUMENT ||--o{ QNA_SESSION : has
+    DOCUMENT ||--o{ ACTION_ITEM : generates
+    DOCUMENT }o--o{ TAG : tagged_with
+    QNA_SESSION ||--|{ QNA_TURN : contains
+    CLAUSE ||--o{ GLOSSARY_TERM : defines
+    CLAUSE }o--o{ ACTION_ITEM : sources
+
+    USER {
+        uuid id PK
+        string email
+        string name
+        string auth_provider_id
+        jsonb preferences
+        timestamp created_at
+    }
+
+    DOCUMENT {
+        uuid id PK
+        uuid user_id FK
+        string title
+        string original_filename
+        string file_type
+        string storage_path
+        text raw_text
+        string doc_type
+        string jurisdiction
+        string status
+        jsonb metadata
+        timestamp uploaded_at
+        timestamp deleted_at
+    }
+
+    CLAUSE {
+        uuid id PK
+        uuid document_id FK
+        int sequence_number
+        string clause_type
+        text original_text
+        text plain_language
+        string risk_level
+        jsonb obligations
+        vector embedding
+        timestamp created_at
+    }
+
+    SUMMARY {
+        uuid id PK
+        uuid document_id FK
+        string summary_type
+        text content
+        float confidence_score
+        jsonb source_refs
+        timestamp created_at
+    }
+
+    QNA_SESSION {
+        uuid id PK
+        uuid document_id FK
+        uuid user_id FK
+        timestamp started_at
+        timestamp ended_at
+    }
+
+    QNA_TURN {
+        uuid id PK
+        uuid session_id FK
+        text question
+        text answer
+        float confidence_score
+        jsonb source_clauses
+        string guardrail_status
+        timestamp asked_at
+    }
+
+    ACTION_ITEM {
+        uuid id PK
+        uuid document_id FK
+        text description
+        string priority
+        string deadline_text
+        date deadline_date
+        jsonb source_clause_ids
+        boolean completed
+        timestamp created_at
+    }
+
+    TAG {
+        uuid id PK
+        string name
+        string category
+    }
+
+    GLOSSARY_TERM {
+        uuid id PK
+        uuid clause_id FK
+        string term
+        text definition_generic
+        text definition_contextual
+    }
+  </pre>
+
+  <h3>Key Entity Details</h3>
+
+  <h4>Document</h4>
+  <table>
+    <tr><th>Field</th><th>Type</th><th>Purpose</th></tr>
+    <tr><td><code>doc_type</code></td><td>enum</td><td>lease, nda, tos, employment, vendor, partnership, other — drives template selection</td></tr>
+    <tr><td><code>jurisdiction</code></td><td>string</td><td>User-selected region for context (not for legal advice) — e.g., "US-CA", "UK", "EU"</td></tr>
+    <tr><td><code>status</code></td><td>enum</td><td>uploading → parsing → ready → analyzed → deleted</td></tr>
+    <tr><td><code>deleted_at</code></td><td>timestamp</td><td>Soft delete; hard purge runs after 30 days or on explicit user request</td></tr>
+  </table>
+
+  <h4>Clause</h4>
+  <table>
+    <tr><th>Field</th><th>Type</th><th>Purpose</th></tr>
+    <tr><td><code>clause_type</code></td><td>enum</td><td>obligation, right, condition, definition, risk, boilerplate</td></tr>
+    <tr><td><code>risk_level</code></td><td>enum</td><td>low, medium, high — based on LLM assessment + heuristics</td></tr>
+    <tr><td><code>obligations</code></td><td>jsonb</td><td>Structured extraction: who owes what, to whom, by when</td></tr>
+    <tr><td><code>embedding</code></td><td>vector(1024)</td><td>For semantic search during Q&A retrieval</td></tr>
+  </table>
+
+  <h4>QnA Turn</h4>
+  <table>
+    <tr><th>Field</th><th>Type</th><th>Purpose</th></tr>
+    <tr><td><code>source_clauses</code></td><td>jsonb</td><td>Array of clause IDs + relevance scores that grounded the answer</td></tr>
+    <tr><td><code>guardrail_status</code></td><td>enum</td><td>passed, flagged (disclaimer added), blocked (question out of scope)</td></tr>
+    <tr><td><code>confidence_score</code></td><td>float</td><td>0.0–1.0, derived from retrieval relevance + LLM self-assessment</td></tr>
+  </table>
+</div>
+
+<!-- ========== UI COMPONENTS ========== -->
+<div class="section" id="ui">
+  <h2>UI Components &amp; Wireframes</h2>
+  <p>The interface follows a document-centric layout: the user's document is always visible on the left, with analysis panels on the right. This split-view keeps the user grounded in their original document while exploring AI-generated insights.</p>
+
+  <h3>Main Application Layout</h3>
+  <div class="wireframe">
+    <div class="wireframe-label">Application Shell</div>
+    <div class="wire-row">
+      <div class="wire-box" style="flex: 0 0 180px;">Sidebar<br/>Document Library<br/>+ Upload Button<br/>+ Settings</div>
+      <div class="wire-box" style="flex: 2;">Document Viewer<br/>Original text with<br/>clause highlighting<br/>+ term underlining</div>
+      <div class="wire-box highlight" style="flex: 1.5;">Analysis Panel<br/>(tabs: Summary, Clauses,<br/>Q&A, Actions, Glossary)</div>
+    </div>
+    <div class="wire-row">
+      <div class="wire-box full" style="background: #fef3e2;">Disclaimer Bar — "LegalLens provides information only. Consult a licensed attorney for legal advice."</div>
+    </div>
+  </div>
+
+  <h3>Component Inventory</h3>
+
+  <h4>DocumentUploader</h4>
+  <div class="wireframe">
+    <div class="wireframe-label">Upload Component</div>
+    <div class="wire-row">
+      <div class="wire-box highlight" style="flex: 1; min-height: 100px; border-style: dashed;">
+        Drop PDF, DOCX, or TXT here<br/>or click to browse<br/><em style="color:#999;">Max 25 MB</em>
+      </div>
+    </div>
+    <div class="wire-row">
+      <div class="wire-box full">Or paste document text directly ▾</div>
+    </div>
+    <div class="wire-row">
+      <div class="wire-box" style="flex:1;">Document type: [Auto-detect ▾]</div>
+      <div class="wire-box" style="flex:1;">Region: [Not specified ▾]</div>
+    </div>
+  </div>
+  <p>Responsibilities: file validation, format detection, upload progress, document type and jurisdiction selection. Emits a document ID on successful processing.</p>
+
+  <h4>SummaryPanel</h4>
+  <div class="wireframe">
+    <div class="wireframe-label">Summary View</div>
+    <div class="wire-row">
+      <div class="wire-box" style="flex: 0 0 auto;">Quick Overview</div>
+      <div class="wire-box highlight" style="flex: 0 0 auto;">Detailed Breakdown</div>
+    </div>
+    <div class="wire-row">
+      <div class="wire-box full" style="text-align: left; min-height: 80px;">
+        <strong>Parties:</strong> Acme Corp (Provider) ↔ Jane Doe (Client)<br/>
+        <strong>Purpose:</strong> Software development services for 12 months...<br/>
+        <strong>Key terms:</strong> Monthly retainer of $X, 30-day termination notice...<br/>
+        <em style="color: var(--phase1);">Confidence: High — 5 source excerpts</em>
+      </div>
+    </div>
+  </div>
+
+  <h4>ClauseHighlighter</h4>
+  <div class="wireframe">
+    <div class="wireframe-label">Clause Detail Panel (on click)</div>
+    <div class="wire-row">
+      <div class="wire-box" style="flex: 1; text-align: left;">
+        <strong>Section 7.2 — Limitation of Liability</strong><br/>
+        <span style="display:inline-block;background:#fde;padding:0 4px;border-radius:2px;font-size:.75rem;color:#a33;">High Risk</span><br/><br/>
+        <strong>What this means:</strong> This clause limits how much you can recover...<br/>
+        <strong>Your obligations:</strong> You waive claims exceeding...<br/>
+        <strong>Options:</strong> You could negotiate a higher cap or...<br/><br/>
+        <em style="color:#888;">Source: lines 142–158</em>
+      </div>
+    </div>
+  </div>
+
+  <h4>QAView</h4>
+  <div class="wireframe">
+    <div class="wireframe-label">Question &amp; Answer Interface</div>
+    <div class="wire-row">
+      <div class="wire-box full" style="text-align: left; min-height: 60px;">
+        <strong>Q:</strong> Can I terminate this contract early?<br/>
+        <strong>A:</strong> According to Section 12.1, either party may terminate with 30 days' written notice. However, Section 12.3 specifies an early termination fee of...<br/>
+        <em style="color:var(--phase1);">Based on: §12.1, §12.3 — Confidence: High</em>
+      </div>
+    </div>
+    <div class="wire-row">
+      <div class="wire-box highlight full">Ask a question about this document...</div>
+    </div>
+  </div>
+
+  <h4>ComparisonView <span class="phase-badge p2">Phase 2</span></h4>
+  <div class="wireframe">
+    <div class="wireframe-label">Side-by-Side Comparison</div>
+    <div class="wire-row">
+      <div class="wire-box" style="flex:1;text-align:left;">
+        <strong>Document A (v1)</strong><br/>
+        Section 5.1: Fees shall be<br/><span style="background:#fdd;"> $5,000/month</span>...
+      </div>
+      <div class="wire-box" style="flex:1;text-align:left;">
+        <strong>Document B (v2)</strong><br/>
+        Section 5.1: Fees shall be<br/><span style="background:#dfd;"> $7,500/month</span>...
+      </div>
+    </div>
+    <div class="wire-row">
+      <div class="wire-box full" style="text-align: left;">
+        <strong>Change Summary:</strong> 12 modifications found. Key changes: fee increase (+50%), new non-compete clause added, warranty period shortened from 12 to 6 months.
+      </div>
+    </div>
+  </div>
+
+  <h4>GlossaryPanel</h4>
+  <div class="wireframe">
+    <div class="wireframe-label">Glossary</div>
+    <div class="wire-row">
+      <div class="wire-box full" style="text-align: left;">
+        <strong>Force Majeure</strong> — Events beyond either party's control (natural disasters, war, pandemics) that excuse performance. <em>In this contract, it's defined in Section 14 and covers...</em><br/><br/>
+        <strong>Indemnification</strong> — A promise to compensate the other party for losses. <em>Here, you're agreeing to cover Acme's legal costs if...</em>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== LLM PROMPTS ========== -->
+<div class="section" id="prompts">
+  <h2>LLM Prompt Templates</h2>
+  <p>Each analysis capability uses a structured prompt template. Templates include a system prompt (consistent across all calls) and a task-specific user prompt. The system prompt establishes the safety guardrails, and the task prompt provides the specific instructions and document context.</p>
+
+  <h3>System Prompt (All Calls)</h3>
+<pre>You are LegalLens, an AI assistant that helps people understand legal
+documents. You provide information and explanations — you do NOT provide
+legal advice.
+
+CRITICAL RULES:
+1. Always base your analysis on the specific document provided.
+   Never fabricate clauses or terms not present in the document.
+2. If the document does not address a question, say so clearly.
+3. Never state that something is "legally binding" or make
+   definitive legal judgments. Use phrases like "this clause
+   appears to," "based on the document's language," and
+   "a licensed attorney could confirm whether."
+4. When you identify risks or obligations, flag them clearly but
+   frame them as observations, not legal conclusions.
+5. If asked for jurisdiction-specific legal advice, decline and
+   recommend consulting a local attorney.
+6. Assign a confidence level to every output:
+   - HIGH: clear, unambiguous language in the document
+   - MEDIUM: reasonable interpretation but some ambiguity
+   - LOW: significant ambiguity or missing context
+7. Always cite the specific section, clause, or line numbers
+   that support your analysis.</pre>
+
+  <h3>Summary Generation</h3>
+<pre>Analyze the following legal document and produce a plain-language summary.
+
+DOCUMENT TYPE: {{doc_type}}
+SUMMARY DEPTH: {{summary_type}} // "brief" or "detailed"
+
+DOCUMENT TEXT:
+---
+{{document_text}}
+---
+
+{{#if summary_type == "brief"}}
+Provide a concise summary (3–5 sentences) covering:
+- Who are the parties and what is the document's purpose?
+- What are the most important obligations and conditions?
+- What is the term/duration?
+- Are there any notable risks or unusual provisions?
+{{else}}
+Provide a section-by-section breakdown covering:
+- Parties and purpose
+- Each major section's obligations, rights, and conditions
+- Key dates, deadlines, and financial terms
+- Termination conditions
+- Notable risks or unusual provisions
+- Any missing standard provisions that users should be aware of
+{{/if}}
+
+Respond in this JSON structure:
+{
+  "parties": [{"name": "...", "role": "..."}],
+  "purpose": "...",
+  "sections": [{"heading": "...", "summary": "...",
+                 "source_ref": "...", "confidence": "HIGH|MEDIUM|LOW"}],
+  "key_dates": [{"description": "...", "date_or_trigger": "..."}],
+  "risks": [{"description": "...", "severity": "...", "source_ref": "..."}],
+  "overall_confidence": "HIGH|MEDIUM|LOW",
+  "missing_provisions": ["..."]
+}</pre>
+
+  <h3>Clause Analysis</h3>
+<pre>Analyze the following clause extracted from a {{doc_type}}.
+
+CLAUSE TEXT:
+---
+{{clause_text}}
+---
+
+SURROUNDING CONTEXT:
+---
+{{surrounding_context}}
+---
+
+Provide:
+1. clause_type: one of [obligation, right, condition, definition,
+   risk, boilerplate]
+2. plain_language: a clear, jargon-free explanation of what this
+   clause means for someone who is not a lawyer
+3. risk_level: LOW / MEDIUM / HIGH with a one-sentence justification
+4. obligations: who owes what to whom, and any deadlines or triggers
+5. options: practical observations about what the reader might want
+   to discuss with an attorney (e.g., negotiation points)
+6. legal_terms: any legal terminology used, with plain definitions
+
+Respond in JSON format.</pre>
+
+  <h3>Contextual Q&amp;A</h3>
+<pre>Answer the user's question based ONLY on the provided document excerpts.
+
+DOCUMENT TYPE: {{doc_type}}
+USER QUESTION: {{question}}
+CONVERSATION HISTORY:
+{{#each history}}
+  Q: {{this.question}}
+  A: {{this.answer}}
+{{/each}}
+
+RELEVANT DOCUMENT EXCERPTS (ranked by relevance):
+{{#each chunks}}
+  [Section: {{this.section_ref}} | Relevance: {{this.score}}]
+  {{this.text}}
+{{/each}}
+
+INSTRUCTIONS:
+- Answer based solely on the excerpts above.
+- If the excerpts do not contain enough information to answer,
+  say "I couldn't find a clear answer to this in the document"
+  and suggest which sections the user might want to review.
+- If the question asks for jurisdiction-specific legal advice,
+  respond: "This question goes beyond document comprehension
+  into legal advice territory. I'd recommend discussing this
+  with a licensed attorney in your jurisdiction."
+- Cite specific sections for every claim.
+- Rate your confidence: HIGH, MEDIUM, or LOW.
+
+Respond in JSON:
+{
+  "answer": "...",
+  "source_refs": [{"section": "...", "excerpt": "...",
+                    "relevance": 0.0-1.0}],
+  "confidence": "HIGH|MEDIUM|LOW",
+  "guardrail_triggered": false,
+  "follow_up_suggestions": ["..."]
+}</pre>
+
+  <h3>Action Item Extraction</h3>
+<pre>Extract all actionable items, obligations, deadlines, and conditions
+from the following document that the reader ({{user_role}}) needs to
+be aware of.
+
+DOCUMENT TEXT:
+---
+{{document_text}}
+---
+
+For each action item, provide:
+- description: what needs to be done, in plain language
+- who: which party is responsible
+- deadline: specific date, relative timeframe, or triggering event
+- priority: HIGH (financial/legal consequence for missing),
+  MEDIUM (important but flexible), LOW (administrative/routine)
+- source_ref: the clause or section number
+- category: one of [financial, notice, compliance, deliverable,
+  reporting, renewal, termination]
+
+Respond as a JSON array sorted by priority (HIGH first).</pre>
+
+  <h3>Contract Comparison <span class="phase-badge p2">Phase 2</span></h3>
+<pre>Compare these two versions of a {{doc_type}} and identify all
+meaningful differences.
+
+DOCUMENT A ({{label_a}}):
+---
+{{document_a_text}}
+---
+
+DOCUMENT B ({{label_b}}):
+---
+{{document_b_text}}
+---
+
+For each difference:
+- section: which section/clause changed
+- type: added | removed | modified | moved
+- summary: plain-language description of the change
+- impact: what this change means for the reader
+- risk_delta: does this change increase, decrease, or
+  maintain the reader's risk exposure?
+
+Also provide an overall_summary of the most significant changes.
+Respond in JSON.</pre>
+</div>
+
+<!-- ========== SECURITY ========== -->
+<div class="section" id="security">
+  <h2>Security &amp; Privacy</h2>
+
+  <h3>Data Protection</h3>
+  <div class="card">
+    <div class="card-title">Encryption</div>
+    <p>All data encrypted in transit (TLS 1.3) and at rest (AES-256). Document storage uses server-side encryption with per-user keys. Database fields containing document text use column-level encryption.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Data Minimization &amp; Retention</div>
+    <p>Documents are processed and chunked on upload; raw files are stored encrypted and can be deleted by the user at any time. When a user deletes a document, all associated data is removed: the original file, extracted text, embeddings, analysis results, and Q&A history. A hard purge runs within 24 hours of deletion. No document data is retained for model training.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Local Processing Option</div>
+    <p>Users can opt for local-only processing where document parsing and chunking happen entirely on the client or self-hosted instance. Only the assembled prompt (containing document excerpts, not the full file) is sent to the LLM API. The LLM provider's data retention policies are disclosed to the user, with a link to Anthropic's usage policy confirming that API inputs are not used for training.</p>
+  </div>
+
+  <h3>Authentication &amp; Authorization</h3>
+  <div class="card">
+    <div class="card-title">User Authentication</div>
+    <p>OAuth 2.0 via Clerk/Auth0 with support for Google, Microsoft, and email magic links. Session tokens use short-lived JWTs (15-minute expiry) with refresh tokens (7-day expiry, rotated on use). Rate limiting per user: 50 analysis requests/hour, 200 Q&A turns/hour.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Document Isolation</div>
+    <p>Strict tenant isolation: every database query filters by user_id. Object storage uses per-user prefixes with IAM policies preventing cross-user access. Vector search is scoped to the user's own document embeddings only.</p>
+  </div>
+
+  <h3>LLM Safety Guardrails</h3>
+  <div class="card">
+    <div class="card-title">Input Guardrails</div>
+    <p>Prompt injection detection on all user inputs (Q&A queries, document text). The system prompt is immutable and prepended server-side — users cannot override it. Document text is sanitized to remove executable content before inclusion in prompts.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Output Guardrails</div>
+    <p>Post-processing checks every LLM response for: definitive legal conclusions (blocked and rephrased), jurisdiction-specific advice (flagged with disclaimer), missing confidence levels (injected as "LOW" with a note), and hallucinated section references (cross-checked against actual document structure). All guardrail interventions are logged for quality monitoring.</p>
+  </div>
+
+  <h3>Compliance Considerations</h3>
+  <div class="card">
+    <div class="card-title">Regulatory Alignment</div>
+    <p>The platform is designed with GDPR and CCPA compliance in mind: right to deletion (fully implemented), data portability (export all user data as JSON), consent management (explicit opt-in for cloud processing), and processing records (audit log of all data operations). For jurisdictions where AI-generated legal information has specific disclosure requirements, the disclaimer system is configurable per region.</p>
+  </div>
+</div>
+
+<!-- ========== ROADMAP ========== -->
+<div class="section" id="roadmap">
+  <h2>Phased Roadmap</h2>
+
+  <h3><span class="phase-badge mvp">Phase 1 — MVP</span> Weeks 1–8</h3>
+  <div class="card">
+    <div class="card-title">Weeks 1–2: Foundation</div>
+    <p>Project setup: Next.js frontend, FastAPI backend, PostgreSQL + pgvector, S3/MinIO storage. Authentication via Clerk. CI/CD pipeline. Document upload and parsing pipeline (PDF, DOCX, TXT) using Apache Tika + PyMuPDF. Text extraction, section detection, and chunking logic. Embedding generation and vector storage.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Weeks 3–4: Core Analysis</div>
+    <p>Prompt orchestration layer with template management. Guardrail engine (system prompt injection, output validation, disclaimer attachment). Plain-language summary generation (brief and detailed modes). Clause detection, categorization, and risk assessment. Confidence scoring and source reference linking.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Weeks 5–6: Q&amp;A and Glossary</div>
+    <p>RAG pipeline for contextual Q&A: vector retrieval, context assembly, answer generation. Conversation history management within sessions. Legal term detection and glossary generation (contextual definitions). Action item and checklist extraction. Guardrail refinement based on initial testing.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Weeks 7–8: Polish and Launch</div>
+    <p>Frontend integration: document viewer with clause highlighting, analysis panel tabs, Q&A interface. Document management (library, rename, delete with full data purge). Disclaimer system (persistent bar, per-output disclaimers). Accessibility audit (WCAG 2.1 AA). Performance optimization (target: summary in &lt;15s for 20-page docs). Beta launch with feedback collection.</p>
+  </div>
+
+  <h3><span class="phase-badge p2">Phase 2 — Compare &amp; Customize</span> Weeks 9–16</h3>
+  <div class="card">
+    <div class="card-title">Weeks 9–11: Contract Comparison</div>
+    <p>Side-by-side document comparison engine: clause-level alignment, diff detection, change categorization. Comparison UI with synchronized scrolling, change highlighting, and impact summaries. Support for comparing two different documents or two versions of the same document.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Weeks 12–14: Jurisdiction &amp; Templates</div>
+    <p>Jurisdiction-aware analysis templates (US states, UK, EU, Canada, Australia). Document type templates with type-specific analysis focuses (lease → habitability clauses; NDA → scope and duration; employment → non-compete and IP assignment). Named entity recognition for parties, dates, amounts, and locations. Redaction tool for PII before sharing analysis results.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Weeks 15–16: Quality &amp; Confidence</div>
+    <p>Confidence calibration: compare LLM-assigned confidence with human review data to improve accuracy. Expanded guardrails based on Phase 1 usage patterns. Multi-document analysis: ask questions across a set of related documents. Export improvements: PDF reports, structured JSON, markdown.</p>
+  </div>
+
+  <h3><span class="phase-badge p3">Phase 3 — Collaborate &amp; Integrate</span> Weeks 17–24</h3>
+  <div class="card">
+    <div class="card-title">Weeks 17–19: Collaboration</div>
+    <p>Multi-user workspaces with role-based access (viewer, editor, admin). Annotation system: highlight text, add comments, tag team members. Review workflows: assign documents for review, track status, collect feedback. Shareable analysis links (read-only, with configurable redaction).</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Weeks 20–22: Integrations</div>
+    <p>E-signature integration (DocuSign, HelloSign): analyze before signing, track post-signature obligations. Document management connectors (Google Drive, Dropbox, SharePoint): import directly from cloud storage. Notification system: deadline reminders for extracted action items. API access for programmatic document analysis.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Weeks 23–24: Analytics &amp; Scale</div>
+    <p>Usage analytics dashboard: documents analyzed, questions asked, most common document types. Analysis quality metrics: user satisfaction ratings, guardrail trigger rates, confidence accuracy. Performance optimization for high-volume users. Horizontal scaling for the analysis pipeline. SOC 2 Type II preparation.</p>
+  </div>
+</div>
+
+<script>
+  // Tab navigation
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.section).classList.add('active');
+    });
+  });
+
+  // Initialize Mermaid
+  mermaid.initialize({
+    startOnLoad: true,
+    securityLevel: 'strict',
+    theme: 'default',
+    themeVariables: {
+      primaryColor: '#e8f0fc',
+      primaryBorderColor: '#2b5ea7',
+      primaryTextColor: '#1a1a2e',
+      lineColor: '#888',
+      secondaryColor: '#f4f4f0',
+      tertiaryColor: '#fafaf8'
+    }
+  });
+</script>
+
+</body>
+</html>
