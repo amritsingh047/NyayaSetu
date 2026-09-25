@@ -24,7 +24,6 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-progress": "^1.0.3",
-    "@radix-ui/react-badge": "^1.0.0",
     "lucide-react": "^0.390.0",
     "react-dropzone": "^14.2.3",
     "react-pdf": "^9.0.0",
