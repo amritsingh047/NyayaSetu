@@ -3,12 +3,12 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], display: 'swap', fallback: ['system-ui', 'sans-serif'] });
 
 export const metadata: Metadata = {
-  title: 'LexAI — Legal Document Assistant',
-  description: 'Understand your legal documents with AI-powered plain-language explanations. Not legal advice.',
-  keywords: ['legal', 'AI', 'contract', 'document analysis', 'NDA', 'lease'],
+  title: 'NyayaSetu (न्याय सेतु) — AI Legal Information & Document Comprehension',
+  description: 'AI-assisted legal information platform grounded in Indian law. Not legal advice.',
+  keywords: ['legal', 'AI', 'NyayaSetu', 'Indian law', 'contract analysis', 'GST', 'DPDP'],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
