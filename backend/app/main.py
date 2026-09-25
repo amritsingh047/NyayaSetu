@@ -18,19 +18,28 @@ log = structlog.get_logger()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan: startup and shutdown events."""
-    log.info("LexAI starting up", env=settings.APP_ENV)
-    # Initialize pgvector extension on startup
-    async with engine.begin() as conn:
-        await conn.execute(__import__('sqlalchemy').text("CREATE EXTENSION IF NOT EXISTS vector"))
-    log.info("Database ready")
+    log.info("NyayaSetu starting up", env=settings.APP_ENV)
+    try:
+        async with engine.begin() as conn:
+            await conn.execute(__import__('sqlalchemy').text("CREATE EXTENSION IF NOT EXISTS vector"))
+        log.info("Database ready")
+    except Exception as e:
+        log.warning(
+            "PostgreSQL database connection skipped or not yet running; "
+            "statutory corpus and deterministic analysis routes remain fully functional.",
+            error=str(e),
+        )
     yield
-    log.info("LexAI shutting down")
-    await engine.dispose()
+    log.info("NyayaSetu shutting down")
+    try:
+        await engine.dispose()
+    except Exception:
+        pass
 
 
 app = FastAPI(
-    title="LexAI API",
-    description="GenAI-powered legal document assistance. Not legal advice.",
+    title="NyayaSetu API",
+    description="GenAI-powered Indian legal document assistance. Not legal advice.",
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/api/docs" if settings.APP_ENV == "development" else None,
@@ -56,4 +65,4 @@ app.include_router(api_v1_router, prefix="/api/v1")
 @app.get("/health", tags=["Health"])
 async def health_check():
     """Health check endpoint."""
-    return {"status": "ok", "service": "lexai-api"}
+    return {"status": "ok", "service": "nyayasetu-api"}
