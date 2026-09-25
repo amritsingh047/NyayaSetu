@@ -1,5 +1,5 @@
 """
-Comprehensive test suite for VidhiMitra — AI-Assisted Legal Information Platform (India).
+Comprehensive test suite for NyayaSetu — AI-Assisted Legal Information Platform (India).
 Tests:
 1. Indian PII Redaction (DPDP Act compliance: Aadhaar, PAN, Mobile, GSTIN, IFSC).
 2. Safety Guardrails & Advice-Seeking Refusal with Advocate / NALSA escalation.

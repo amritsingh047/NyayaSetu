@@ -9,13 +9,13 @@ export function DisclaimerModal() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const accepted = localStorage.getItem('vidhimitra-disclaimer-accepted');
+    const accepted = localStorage.getItem('nyayasetu-disclaimer-accepted');
     if (!accepted) setIsOpen(true);
     else acceptDisclaimer();
   }, [acceptDisclaimer]);
 
   const handleAccept = () => {
-    localStorage.setItem('vidhimitra-disclaimer-accepted', 'true');
+    localStorage.setItem('nyayasetu-disclaimer-accepted', 'true');
     acceptDisclaimer();
     setIsOpen(false);
   };
@@ -37,7 +37,7 @@ export function DisclaimerModal() {
 
         <div className="space-y-3 text-xs text-foreground/90 leading-relaxed max-h-[60vh] overflow-y-auto pr-1">
           <p className="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 font-medium">
-            <strong>VidhiMitra is an AI-assisted legal information and document comprehension platform.</strong>{' '}
+            <strong>NyayaSetu is an AI-assisted legal information and document comprehension platform.</strong>{' '}
             It is an educational and informational tool, NOT a licensed Advocate or law firm.
           </p>
 

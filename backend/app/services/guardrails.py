@@ -19,7 +19,7 @@ except ImportError:
 
 # Mandatory Bar Council of India & Statutory Information Notice
 INDIAN_LEGAL_DISCLAIMER = (
-    "⚠️ Disclaimer: VidhiMitra is an AI-powered legal information and document comprehension tool. "
+    "⚠️ Disclaimer: NyayaSetu is an AI-powered legal information and document comprehension tool. "
     "It provides general information on Indian statutes, rules, and regulations (not legal advice). "
     "Use of this platform does not create an advocate-client relationship under the Advocates Act, 1961. "
     "For dispute representation, binding opinions, or case strategy, consult an Advocate registered with the Bar Council."

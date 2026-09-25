@@ -1,5 +1,5 @@
 """
-LLM Orchestrator for VidhiMitra / LegalLens India.
+LLM Orchestrator for NyayaSetu (न्याय सेतु) — Legal Bridge India.
 Integrates cloud LLMs (Gemini / Claude), local models (Ollama), and a deterministic
 statutory grounding engine for high-efficiency zero-dependency local evaluation.
 """

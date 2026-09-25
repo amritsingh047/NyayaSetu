@@ -1,4 +1,4 @@
-# VidhiMitra (विधि मित्र) — AI-Assisted Legal Information Platform (India)
+# NyayaSetu (न्याय सेतु) — AI-Assisted Legal Information Platform (India)
 
 [![Tests: Passing](https://img.shields.io/badge/Tests-14%20Passed%20(100%25)-success)](file:///k:/AI%20for%20Legal%20Assistance%20&%20Access/backend/tests)
 [![Repo Size: <0.5MB](https://img.shields.io/badge/Repo%20Size-0.32%20MB-blue)](file:///k:/AI%20for%20Legal%20Assistance%20&%20Access)
@@ -14,7 +14,7 @@
 
 Laypersons, micro, small, and medium enterprises (MSMEs), consumers, and compliance officers in India frequently sign complex agreements (vendor contracts, commercial leases, employment agreements, FSSAI compliance declarations) without understanding their legal liabilities. Dense legalese, archaic Latin maxims (*mutatis mutandis*, *force majeure*, *uberrima fides*), and hidden statutory penalties create significant legal risk.
 
-**VidhiMitra** solves this by:
+**NyayaSetu (Legal Bridge)** solves this by:
 1. **Translating complex contracts into plain English** avoiding Latin jargon.
 2. **Anchoring analysis to authoritative Indian statutes** (CGST Act 2017, Indian Contract Act 1872, DPDP Act 2023, FSS Act 2006, Consumer Protection Act 2019, Arbitration & Conciliation Act 1996, and the Constitution of India).
 3. **Detecting high-risk clauses under Indian law** (e.g., post-employment non-compete clauses void under Section 27, uncapped indemnities, unproven penalties under Section 74, missing DPDP data consent notices).
@@ -155,7 +155,7 @@ cd frontend
 npm install
 npm run dev
 ```
-Open `http://localhost:3000` to access the VidhiMitra interactive document workspace.
+Open `http://localhost:3000` to access the NyayaSetu interactive document workspace.
 
 ---
 
@@ -201,4 +201,4 @@ AI for Legal Assistance & Access/
 
 ## 9. Legal Disclaimer
 
-*VidhiMitra is an artificial intelligence-assisted legal information platform developed for educational and document comprehension purposes. It does not provide legal advice, legal opinions, or court representation. Interacting with this platform does not establish an advocate-client relationship under the Advocates Act, 1961. For specific legal issues or litigation, users must consult an Advocate enrolled with the Bar Council of India or contact the National Legal Services Authority (NALSA Helpline: 15100).*
+*NyayaSetu is an artificial intelligence-assisted legal information platform developed for educational and document comprehension purposes. It does not provide legal advice, legal opinions, or court representation. Interacting with this platform does not establish an advocate-client relationship under the Advocates Act, 1961. For specific legal issues or litigation, users must consult an Advocate enrolled with the Bar Council of India or contact the National Legal Services Authority (NALSA Helpline: 15100).*

@@ -1,4 +1,4 @@
-"""LLM prompt templates for VidhiMitra."""
+"""LLM prompt templates for NyayaSetu."""
 from app.prompts.templates import (
     SYSTEM_PROMPT,
     summary_user,

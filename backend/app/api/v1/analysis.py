@@ -1,4 +1,4 @@
-"""Analysis endpoints for VidhiMitra: summary, clause extraction, contextual Q&A, statutory corpus, checklist, and comparison."""
+"""Analysis endpoints for NyayaSetu: summary, clause extraction, contextual Q&A, statutory corpus, checklist, and comparison."""
 import uuid
 from datetime import datetime, timezone
 from typing import Optional

@@ -47,10 +47,10 @@ export default function HomePage() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-lg tracking-tight text-foreground">VidhiMitra</span>
-                <span className="text-[11px] font-bold text-primary font-serif">विधि मित्र</span>
+                <span className="font-extrabold text-lg tracking-tight text-foreground">NyayaSetu</span>
+                <span className="text-[11px] font-bold text-primary font-serif">न्याय सेतु</span>
                 <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
-                  India (MVP)
+                  Legal Bridge (India MVP)
                 </span>
               </div>
               <p className="text-[10px] text-muted-foreground hidden sm:block">
@@ -91,7 +91,7 @@ export default function HomePage() {
                 Understand agreements, policies, and Indian law in plain English.
               </h1>
               <p className="text-muted-foreground text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
-                Upload commercial supply agreements, leases, NDAs, or employment contracts. VidhiMitra highlights
+                Upload commercial supply agreements, leases, NDAs, or employment contracts. NyayaSetu highlights
                 problematic clauses (e.g. Section 27 non-compete voidness, uncapped liabilities, GST non-compliance),
                 extracts checklists before consulting an Advocate, and answers questions strictly anchored in official statutes.
               </p>
@@ -221,7 +221,7 @@ export default function HomePage() {
               <div className="disclaimer-banner text-xs space-y-2">
                 <p className="font-bold text-amber-900 dark:text-amber-200">⚖️ Advocate Consultation & Legal Aid</p>
                 <p className="leading-relaxed text-[11px]">
-                  VidhiMitra provides educational document comprehension. For disputes or litigation representation in Indian courts, consult an Advocate enrolled with the State Bar Council.
+                  NyayaSetu provides educational document comprehension. For disputes or litigation representation in Indian courts, consult an Advocate enrolled with the State Bar Council.
                 </p>
                 <div className="pt-1">
                   <a
