@@ -8,7 +8,8 @@ from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
 from app.api.v1 import router as api_v1_router
 from app.core.config import settings
-from app.core.database import engine
+from app.core.database import engine, Base
+import app.models
 from app.core.logging import configure_logging
 
 configure_logging()
@@ -16,23 +17,18 @@ log = structlog.get_logger()
 
 
 @asynccontextmanager
+@asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan: startup and shutdown events."""
-    log.info("NyayaSetu starting up", env=settings.APP_ENV)
-    try:
-        async with engine.begin() as conn:
-            await conn.execute(__import__('sqlalchemy').text("CREATE EXTENSION IF NOT EXISTS vector"))
-        log.info("Database ready")
-    except Exception as e:
-        log.warning(
-            "PostgreSQL database connection skipped or not yet running; "
-            "statutory corpus and deterministic analysis routes remain fully functional.",
-            error=str(e),
-        )
+    log.info("LexAI starting up", env=settings.APP_ENV)
+    # Initialize pgvector extension and create tables
+    async with engine.begin() as conn:
+        await conn.execute(__import__('sqlalchemy').text("CREATE EXTENSION IF NOT EXISTS vector"))
+        await conn.run_sync(Base.metadata.create_all)
+    log.info("Database ready")
     yield
-    log.info("NyayaSetu shutting down")
-    try:
-        await engine.dispose()
+    log.info("LexAI shutting down")
+    await engine.dispose()
     except Exception:
         pass
 
