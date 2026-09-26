@@ -54,10 +54,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-if settings.APP_ENV == "production":
-    app.add_middleware(TrustedHostMiddleware, allowed_hosts=[settings.FRONTEND_URL])
-
 # --- Routers ---
 app.include_router(api_v1_router, prefix="/api/v1")
 
